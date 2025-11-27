@@ -1,6 +1,53 @@
 """
 CMU Graphics - Simple Animation Demo
-=====================================
+# =============================================================================
+# ARROW KEY CONTROLS FOR THE MOVING CIRCLE
+# =============================================================================
+
+# Indicates whether the user is holding an arrow key
+app.arrowKeyHeld = False
+app.arrowKeyDirection = None  # 'left' or 'right' or None
+
+def onKeyHold(keys):
+    # Pause auto movement when arrow keys are held, and move circle manually
+    if 'left' in keys:
+        app.arrowKeyHeld = True
+        app.arrowKeyDirection = 'left'
+        movingCircle.centerX -= 4
+    elif 'right' in keys:
+        app.arrowKeyHeld = True
+        app.arrowKeyDirection = 'right'
+        movingCircle.centerX += 4
+    else:
+        app.arrowKeyHeld = False
+        app.arrowKeyDirection = None
+
+def onKeyRelease(key):
+    # Unpause auto movement when arrow keys are released
+    if key in ['left', 'right']:
+        app.arrowKeyHeld = False
+        app.arrowKeyDirection = None
+
+# Save the original onStep if any, so we can chain or redefine if needed in future demos
+original_onStep = None
+if 'onStep' in globals():
+    original_onStep = onStep
+
+def onStep():
+    # If arrow key is NOT held, run normal animation
+    if not app.arrowKeyHeld:
+        # Move the ball in the current direction
+        movingCircle.centerX += app.circleDirection * 2
+
+        # If the ball hits left or right edge, reverse direction ("bounce")
+        if (movingCircle.centerX - movingCircle.radius <= 0):
+            app.circleDirection = 1
+        elif (movingCircle.centerX + movingCircle.radius >= 400):
+            app.circleDirection = -1
+
+    # (Optional) Call original_onStep for compatibility if there was previous onStep logic
+    if original_onStep is not None:
+        original_onStep()
 This demo introduces basic animation concepts using the cmu_graphics library.
 
 # In the onStep function, the position of the ball (movingCircle) is updated to create animation:

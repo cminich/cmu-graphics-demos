@@ -89,6 +89,8 @@ Rect(250, 250, 80, 60, fill=None, border='darkGreen', borderWidth=3)
 # =============================================================================
 # Use the 'rotateAngle' parameter to rotate shapes.
 Rect(350, 280, 60, 40, fill='salmon', rotateAngle=30)
+# Example: Create a pentagon using Polygon (not RegularPolygon)
+Polygon(180, 250, 220, 220, 250, 260, 210, 300, 150, 280, fill='gold', border='brown', borderWidth=2)
 
 # =============================================================================
 # LABELS WITH DIFFERENT FONTS AND SIZES
