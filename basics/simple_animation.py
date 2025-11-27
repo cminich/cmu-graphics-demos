@@ -27,7 +27,7 @@ from cmu_graphics import *
 # =============================================================================
 
 # A circle that will move across the screen
-movingCircle = Circle(50, 100, 25, fill='steelBlue')
+movingCircle = Circle(50, 100, 25, fill='cyan')
 
 # A rectangle that will grow and shrink (pulsate)
 pulsatingRect = Rect(200, 200, 50, 50, fill='crimson', align='center')
