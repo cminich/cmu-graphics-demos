@@ -98,6 +98,7 @@ Polygon(180, 250, 220, 220, 250, 260, 210, 300, 150, 280, fill='gold', border='b
 Label('Small Text', 80, 350, size=12, fill='gray')
 Label('Big Text', 200, 350, size=24, bold=True, fill='darkBlue')
 Label('Italic Text', 320, 350, size=16, italic=True, fill='darkGreen')
+Label('Minich', 320, 350, size=16, italic=True, fill='darkGreen')
 
 # Start the graphics application
 # This line must be at the end of the script to display the canvas.

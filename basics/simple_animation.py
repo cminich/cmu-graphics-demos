@@ -3,6 +3,14 @@ CMU Graphics - Simple Animation Demo
 # =============================================================================
 # ARROW KEY CONTROLS FOR THE MOVING CIRCLE
 # =============================================================================
+"""
+# pyright: reportUndefinedVariable=false
+from cmu_graphics import *  # type: ignore
+
+# Save the original onStep if any, so we can chain or redefine if needed in future demos
+original_onStep = None
+if 'onStep' in globals():
+    original_onStep = onStep
 
 # Indicates whether the user is holding an arrow key
 app.arrowKeyHeld = False
@@ -14,7 +22,6 @@ def onKeyHold(keys):
         app.arrowKeyHeld = True
         app.arrowKeyDirection = 'left'
         movingCircle.centerX -= 4
-        print('left arrow')
     elif 'right' in keys:
         app.arrowKeyHeld = True
         app.arrowKeyDirection = 'right'
@@ -29,55 +36,9 @@ def onKeyRelease(key):
         app.arrowKeyHeld = False
         app.arrowKeyDirection = None
 
-# Save the original onStep if any, so we can chain or redefine if needed in future demos
-original_onStep = None
-if 'onStep' in globals():
-    original_onStep = onStep
-
-def onStep():
-    # If arrow key is NOT held, run normal animation
-    if not app.arrowKeyHeld:
-        # Move the ball in the current direction
-        movingCircle.centerX += app.circleDirection * 2
-
-        # If the ball hits left or right edge, reverse direction ("bounce")
-        if (movingCircle.centerX - movingCircle.radius <= 0):
-            app.circleDirection = 1
-        elif (movingCircle.centerX + movingCircle.radius >= 400):
-            app.circleDirection = -1
-
-    # (Optional) Call original_onStep for compatibility if there was previous onStep logic
-    if original_onStep is not None:
-        original_onStep()
-This demo introduces basic animation concepts using the cmu_graphics library.
-
-# In the onStep function, the position of the ball (movingCircle) is updated to create animation:
-# - Each time onStep is called, the x-coordinate of the ball increases or decreases,
-#   depending on the value of app.circleDirection.
-# - This makes the ball move right (when app.circleDirection is 1) or left (when it is -1).
-# - The position update is done by adding a small amount to movingCircle.centerX.
-# - If the ball reaches the edge of the canvas, app.circleDirection is reversed,
-#   causing the ball to "bounce" and move the other direction.
-It demonstrates how to use the onStep() function to create movement over time.
-
-Prerequisites:
-- Python 3.6+
-- cmu_graphics library installed
-
-Run this demo:
-    python simple_animation.py
-"""
-
-# pyright: reportUndefinedVariable=false
-from cmu_graphics import *  # type: ignore
-
-# =============================================================================
-# SETUP - Create the shapes we want to animate
-# =============================================================================
-
 # A circle that will move across the screen
 movingCircle = Circle(50, 100, 25, fill='cyan')
-
+movingCircle2 = Circle(100, 100, 25, fill='green')
 # A rectangle that will grow and shrink (pulsate)
 pulsatingRect = Rect(200, 200, 50, 50, fill='crimson', align='center')
 
@@ -103,10 +64,71 @@ app.rectGrowing = True
 # Current size factor for the rectangle
 app.rectSize = 50
 
+# Display info about the color-changing circle
+Label('Color-changing circle below:', 100, 260, size=12, fill='gray')
+
 # =============================================================================
-# onStep() - Called automatically ~30 times per second
+# EXTRA: An orbiting dot
 # =============================================================================
+import math
+
+# Center point for the orbit
+orbitCenterX = 300
+orbitCenterY = 300
+orbitRadius = 40
+
+# The orbiting dot
+orbitDot = Circle(orbitCenterX + orbitRadius, orbitCenterY, 10, fill='darkGreen')
+
+# Orbit indicator circle (static)
+Oval(orbitCenterX, orbitCenterY, orbitRadius * 2, orbitRadius * 2, 
+     fill=None, border='lightGray', borderWidth=1)
+
+# Track the angle for orbital motion
+app.orbitAngle = 0
+
+# Final combined onStep with orbital motion
 def onStep():
+    """
+    Master animation function that handles all animations:
+    1. Bouncing circle
+    2. Pulsating rectangle
+    3. Rotating star
+    4. Color-changing circle
+    5. Orbiting dot
+    """
+    # Animation 1: Moving Circle
+    movingCircle.centerX += 3 * app.circleDirection
+    if movingCircle.centerX >= 375:
+        app.circleDirection = -1
+    elif movingCircle.centerX <= 25:
+        app.circleDirection = 1
+    
+    # Animation 2: Pulsating Rectangle
+    if app.rectGrowing:
+        app.rectSize += 1
+        if app.rectSize >= 80:
+            app.rectGrowing = False
+    else:
+        app.rectSize -= 1
+        if app.rectSize <= 30:
+            app.rectGrowing = True
+    pulsatingRect.width = app.rectSize
+    pulsatingRect.height = app.rectSize
+    
+    # Animation 3: Rotating Star
+    rotatingStart.rotateAngle += 3
+    
+    # Animation 4: Color-Changing Circle
+    app.colorCounter += 1
+    if app.colorCounter >= 15:
+        app.colorCounter = 0
+        app.colorIndex = (app.colorIndex + 1) % len(app.colors)
+        colorCircle.fill = app.colors[app.colorIndex]
+    
+    # Animation 5: Orbiting Dot
+    app.orbitAngle += 0.05  # Radians per step
+    orbitDot.centerX = orbitCenterX + orbitRadius * math.cos(app.orbitAngle)
     """
     This function is called automatically by the cmu_graphics library
     approximately 30 times per second. Use it to update shape properties
@@ -198,70 +220,24 @@ def onStep():
         app.colorIndex = (app.colorIndex + 1) % len(app.colors)
         colorCircle.fill = app.colors[app.colorIndex]
 
-# Display info about the color-changing circle
-Label('Color-changing circle below:', 100, 260, size=12, fill='gray')
 
-# =============================================================================
-# EXTRA: An orbiting dot
-# =============================================================================
-import math
+    # If arrow key is NOT held, run normal animation
+    if not app.arrowKeyHeld:
+        # Move the ball in the current direction
+        movingCircle.centerX += app.circleDirection * 2
 
-# Center point for the orbit
-orbitCenterX = 300
-orbitCenterY = 300
-orbitRadius = 40
+        # If the ball hits left or right edge, reverse direction ("bounce")
+        if (movingCircle.centerX - movingCircle.radius <= 0):
+            app.circleDirection = 1
+        elif (movingCircle.centerX + movingCircle.radius >= 400):
+            app.circleDirection = -1
 
-# The orbiting dot
-orbitDot = Circle(orbitCenterX + orbitRadius, orbitCenterY, 10, fill='darkGreen')
-
-# Orbit indicator circle (static)
-Oval(orbitCenterX, orbitCenterY, orbitRadius * 2, orbitRadius * 2, 
-     fill=None, border='lightGray', borderWidth=1)
-
-# Track the angle for orbital motion
-app.orbitAngle = 0
-
-# Final combined onStep with orbital motion
-def onStep():
-    """
-    Master animation function that handles all animations:
-    1. Bouncing circle
-    2. Pulsating rectangle
-    3. Rotating star
-    4. Color-changing circle
-    5. Orbiting dot
-    """
-    # Animation 1: Moving Circle
-    movingCircle.centerX += 3 * app.circleDirection
-    if movingCircle.centerX >= 375:
-        app.circleDirection = -1
-    elif movingCircle.centerX <= 25:
-        app.circleDirection = 1
-    
-    # Animation 2: Pulsating Rectangle
-    if app.rectGrowing:
-        app.rectSize += 1
-        if app.rectSize >= 80:
-            app.rectGrowing = False
-    else:
-        app.rectSize -= 1
-        if app.rectSize <= 30:
-            app.rectGrowing = True
-    pulsatingRect.width = app.rectSize
-    pulsatingRect.height = app.rectSize
-    
-    # Animation 3: Rotating Star
-    rotatingStart.rotateAngle += 3
-    
-    # Animation 4: Color-Changing Circle
-    app.colorCounter += 1
-    if app.colorCounter >= 15:
-        app.colorCounter = 0
-        app.colorIndex = (app.colorIndex + 1) % len(app.colors)
-        colorCircle.fill = app.colors[app.colorIndex]
-    
+    # (Optional) Call original_onStep for compatibility if there was previous onStep logic
+    if original_onStep is not None:
+        original_onStep()    
+        
     # Animation 5: Orbiting Dot
-    app.orbitAngle += 0.05  # Radians per step
+    app.orbitAngle += 0.05
     orbitDot.centerX = orbitCenterX + orbitRadius * math.cos(app.orbitAngle)
     orbitDot.centerY = orbitCenterY + orbitRadius * math.sin(app.orbitAngle)
 
