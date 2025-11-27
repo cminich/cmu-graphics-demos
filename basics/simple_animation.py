@@ -21,7 +21,7 @@ def onKeyHold(keys):
     if 'left' in keys:
         app.arrowKeyHeld = True
         app.arrowKeyDirection = 'left'
-        movingCircle.centerX -= 4
+        movingCircle.centerX -= 40
     elif 'right' in keys:
         app.arrowKeyHeld = True
         app.arrowKeyDirection = 'right'
