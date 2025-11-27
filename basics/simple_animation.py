@@ -2,6 +2,14 @@
 CMU Graphics - Simple Animation Demo
 =====================================
 This demo introduces basic animation concepts using the cmu_graphics library.
+
+# In the onStep function, the position of the ball (movingCircle) is updated to create animation:
+# - Each time onStep is called, the x-coordinate of the ball increases or decreases,
+#   depending on the value of app.circleDirection.
+# - This makes the ball move right (when app.circleDirection is 1) or left (when it is -1).
+# - The position update is done by adding a small amount to movingCircle.centerX.
+# - If the ball reaches the edge of the canvas, app.circleDirection is reversed,
+#   causing the ball to "bounce" and move the other direction.
 It demonstrates how to use the onStep() function to create movement over time.
 
 Prerequisites:
