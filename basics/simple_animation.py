@@ -20,7 +20,8 @@ Run this demo:
     python simple_animation.py
 """
 
-from cmu_graphics import *
+# pyright: reportUndefinedVariable=false
+from cmu_graphics import *  # type: ignore
 
 # =============================================================================
 # SETUP - Create the shapes we want to animate
