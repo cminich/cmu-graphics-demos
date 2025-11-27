@@ -119,13 +119,6 @@ These demos are designed to be:
 - **Progressive** - Start with shapes, then animation, then projects
 - **Modifiable** - Students can easily experiment with parameters
 
-### Suggested Lesson Plan
-
-1. **Day 1**: Introduction to CMU Graphics with `shapes.py`
-2. **Day 2**: Animation basics with `simple_animation.py`
-3. **Day 3-4**: Work through the bouncing ball project
-4. **Day 5+**: Students create their own projects
-
 ## Contributing
 
 Contributions are welcome! Feel free to submit issues or pull requests with:
