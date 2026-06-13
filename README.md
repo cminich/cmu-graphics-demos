@@ -1,6 +1,6 @@
 # CMU Graphics Demos
 
-Classroom-ready CMU Graphics demos for Python CS1 courses. This repository contains well-commented examples demonstrating shapes, animation, interactivity, and small projects suitable for introductory programming students.
+Classroom-ready CMU Graphics demos for Python CS1 courses. This repository contains well-commented examples suitable for introductory programming students.
 
 ## 📋 Table of Contents
 
@@ -51,13 +51,11 @@ print("CMU Graphics installed successfully!")
 cmu-graphics-demos/
 ├── README.md                    # This file
 ├── LICENSE                      # MIT License
-├── basics/                      # Fundamental concepts
-│   ├── shapes.py               # Basic shape drawing
-│   └── simple_animation.py     # Introduction to animation
-└── projects/                    # Complete mini-projects
-    └── bouncing_ball/
-        ├── main.py             # Bouncing ball simulation
-        └── README.md           # Project documentation
+├── bouncing-ball/               # Bouncing ball simulation
+│   ├── main.py
+│   └── README.md
+└── wyo-lax/                     # Wyoming lacrosse demo
+    └── main.py
 ```
 
 ## Running the Demos
@@ -65,42 +63,19 @@ cmu-graphics-demos/
 Navigate to the demo file you want to run and execute it with Python:
 
 ```bash
-# Run the shapes demo
-python basics/shapes.py
-
-# Run the animation demo
-python basics/simple_animation.py
-
 # Run the bouncing ball project
-python projects/bouncing_ball/main.py
+python bouncing-ball/main.py
+
+# Run the wyo-lax demo
+python wyo-lax/main.py
 ```
 
 Each demo opens a graphics window. Close the window to exit the application.
 
 ## Demo Descriptions
 
-### Basics
+### `bouncing-ball/`
 
-#### `basics/shapes.py`
-An introduction to drawing shapes with CMU Graphics. Covers:
-- Rectangles, circles, and ovals
-- Lines and polygons
-- Stars and regular polygons
-- Labels (text)
-- Shape properties (fill, border, rotation)
-
-#### `basics/simple_animation.py`
-Learn how to create animations using the `onStep()` function. Demonstrates:
-- Moving shapes across the screen
-- Bouncing/reversing direction
-- Pulsating (growing/shrinking) shapes
-- Rotating shapes
-- Color-changing animations
-- Orbital motion using trigonometry
-
-### Projects
-
-#### `projects/bouncing_ball/`
 A complete physics simulation featuring:
 - Gravity and acceleration
 - Wall and floor collision detection
@@ -108,7 +83,11 @@ A complete physics simulation featuring:
 - User interaction (click to reset, keyboard controls)
 - Visual effects (shadow)
 
-See the project's [README](projects/bouncing_ball/README.md) for detailed documentation.
+See the project's [README](bouncing-ball/README.md) for detailed documentation.
+
+### `wyo-lax/`
+
+A lacrosse-themed CMU Graphics demo.
 
 ## For Instructors
 
@@ -116,7 +95,6 @@ These demos are designed to be:
 
 - **Self-contained** - Each file runs independently
 - **Well-commented** - Clear explanations throughout the code
-- **Progressive** - Start with shapes, then animation, then projects
 - **Modifiable** - Students can easily experiment with parameters
 
 ## Contributing
