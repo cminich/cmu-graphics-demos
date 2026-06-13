@@ -28,7 +28,7 @@ CANVAS_WIDTH = 400
 CANVAS_HEIGHT = 400
 
 # Ball properties
-BALL_RADIUS = 20
+BALL_RADIUS = 30
 BALL_COLOR = 'steelBlue'
 BALL_BORDER_COLOR = 'navy'
 
